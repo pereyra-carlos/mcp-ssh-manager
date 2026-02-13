@@ -1,0 +1,22 @@
+services:
+  mcp-ssh-manager:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mcp-ssh-manager:local
+    container_name: mcp-ssh-manager
+    restart: unless-stopped
+    working_dir: /app
+    command: ["node", "src/index.js"]
+    stdin_open: true
+    tty: true
+    volumes:
+      - ~/.ssh:/home/node/.ssh:ro
+      - /home/carlos/Trabajo/Magiis/EC2:/keys:ro
+      - ./logs:/app/logs
+    env_file:
+      - .env.local
+    environment:
+      SSH_LOG_LEVEL: INFO
+      SSH_VERBOSE: "false"
+
